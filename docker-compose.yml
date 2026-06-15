@@ -1,0 +1,41 @@
+
+services:
+  # 1. The Database Container
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Your FastAPI Container (Backend)
+  api:
+    build: 
+      context: ./backend    # Points exactly to your backend folder
+      dockerfile: Dockerfile
+    ports:
+      - "${API_PORT:-8000}:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app      # Mounts only the backend code for live reloading
+
+  # 3. Your Nginx Container (Frontend)
+  frontend:
+    image: nginx:alpine
+    ports:
+      - "3000:80"             # Standard web traffic port
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro # Mounts your UI files to Nginx
+    depends_on:
+      - api
+
+# This keeps your database data safe even if you shut the containers down
+volumes:
+  postgres_data:

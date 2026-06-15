@@ -1,0 +1,28 @@
+# ========================
+# OS & Editor Files
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ========================
+# Backend (Python)
+# ========================
+# Environment variables (NEVER commit this)
+backend/.env
+.env
+
+backend/venv/
+venv/
+
+# Compiled Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# ========================
+# Testing & Logs
+# ========================
+*.log
+.pytest_cache/
