@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Freshr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-gray-900 antialiased flex h-screen overflow-hidden">
+
+    <div class="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-gray-200 z-10 flex items-center px-4 justify-between">
+        <span class="text-lg font-bold text-blue-600 tracking-tight">Freshr</span>
+        <button onclick="toggleSidebar()" class="text-gray-600 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+    </div>
+
+    <aside id="sidebar" class="bg-[#1D4ED8] w-64 flex-shrink-0 flex flex-col fixed inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition-all duration-300 ease-in-out z-30 md:flex">
+        <div class="h-16 flex items-center justify-between px-6">
+            <span class="text-xl font-bold text-white tracking-tight">Freshr</span>
+            <button onclick="toggleSidebar()" class="md:hidden text-white hover:text-gray-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <button onclick="toggleSidebar()" class="hidden md:flex text-white hover:text-gray-200 font-light text-2xl focus:outline-none">
+                ✕
+            </button>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto no-scrollbar">
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 bg-white/10 rounded-lg text-white font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span>Home</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-blue-100 hover:bg-white/5 hover:text-white rounded-lg font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <span>Job Matches</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-blue-100 hover:bg-white/5 hover:text-white rounded-lg font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                <span>Applications</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 px-3 py-2.5 text-blue-100 hover:bg-white/5 hover:text-white rounded-lg font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>CV Studio</span>
+            </a>
+        </nav>
+
+        <div class="px-4 py-4 space-y-2 border-t border-blue-500/50">
+            <a href="#" class="flex items-center space-x-3 px-3 py-2 text-blue-100 hover:bg-white/5 hover:text-white rounded-lg font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span>Settings</span>
+            </a>
+            <a href="login.html" class="flex items-center space-x-3 px-3 py-2 text-blue-100 hover:bg-white/5 hover:text-white rounded-lg font-medium text-xs transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                <span>Log Out</span>
+            </a>
+        </div>
+    </aside>
+
+    <div id="sidebar-overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-gray-900 bg-opacity-50 z-20 hidden md:hidden"></div>
+
+    <main class="flex-1 flex flex-col min-w-0 pt-14 md:pt-0 overflow-y-auto no-scrollbar">
+        
+        <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <button id="desktop-hamburger" onclick="toggleSidebar()" class="hidden text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <h1 class="text-sm font-semibold text-gray-700">Home</h1>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button class="text-gray-400 hover:text-gray-600 focus:outline-none relative">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <span class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+                </button>
+                <img class="w-8 h-8 rounded-full border border-gray-200 object-cover" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?auto=format&fit=crop&w=100&q=80" alt="User avatar">
+            </div>
+        </header>
+
+        <div class="flex-1 p-6 md:p-8 max-w-5xl mx-auto w-full space-y-6">
+            
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 md:p-10 text-center">
+                <div class="flex justify-center mb-4">
+                    <svg class="w-10 h-10 text-gray-900" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.48 text-m-0.01-.834-.014-1.547-.014-2.33-2.778.603-3.364-1.34-3.364-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.01.069-.01 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.218-.252-4.549-1.11-4.549-4.937 0-1.09.39-1.982 1.029-2.682-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.592 1.028 2.682 0 3.837-2.336 4.682-4.558 4.93.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.479C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 mb-2">Connect Your GitHub Profile</h2>
+                <p class="text-xs text-gray-500 mb-6 max-w-lg mx-auto">Paste your GitHub profile. We will fetch all your public repositories to analyse your skills and find the best job matches for you.</p>
+
+                <div class="max-w-xl mx-auto space-y-3 text-left">
+                    <input type="text" id="github-url-input" placeholder="https://github.com/username" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs transition text-gray-900 placeholder-gray-400 shadow-sm">
+                    <p class="text-[10px] text-gray-400 pl-1">Example, https://github.com/yourusername</p>
+                    <button id="sync-btn" onclick="startSync()" class="w-full bg-[#1D4ED8] hover:bg-blue-800 text-white font-medium py-3 rounded-lg transition text-xs shadow-sm flex justify-center items-center">
+                        <span>Sync GitHub Profile</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div id="skills-card" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center min-h-[200px] flex flex-col justify-center items-center transition-all duration-300">
+                    <h3 class="text-sm font-bold text-gray-900 mb-4">Your Top Core Skills</h3>
+                    <div class="w-12 h-12 border-2 border-gray-300 text-gray-300 relative flex items-center justify-center mb-3">
+                        <svg class="w-full h-full absolute inset-0" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="2"/>
+                            <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <p class="text-[11px] text-gray-400">No data yet. Sync your GitHub profile to see data.</p>
+                </div>
+
+                <div id="matches-card" class="bg-white rounded-xl border border-gray-200 shadow-sm p-6 text-center min-h-[200px] flex flex-col justify-center items-center transition-all duration-300">
+                    <h3 class="text-sm font-bold text-gray-900 mb-4">Highest Rated Job Matches</h3>
+                    <div class="w-12 h-12 border-2 border-gray-300 text-gray-300 relative flex items-center justify-center mb-3">
+                        <svg class="w-full h-full absolute inset-0" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" stroke-width="2"/>
+                            <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <p class="text-[11px] text-gray-400">No data yet. Sync your GitHub profile to see data.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+       
+        // FIXED: State synchronization for desktop viewports
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            const desktopHamburger = document.getElementById('desktop-hamburger');
+            
+            // Toggle actions for mobile view
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+            
+            // Toggle actions for desktop layout
+            sidebar.classList.toggle('md:hidden');
+            // Toggles 'md:block' on the header hamburger so it only reveals itself when the sidebar closes
+            desktopHamburger.classList.toggle('md:block');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. THE FRONTEND BOUNCER: Check for the VIP wristband (JWT)
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // No token found? Kick them back to login immediately!
+                window.location.href = 'login.html';
+                return; 
+            }
+
+            // 2. Load any prefilled GitHub username
+            const savedUsername = localStorage.getItem('prefilled_github');
+            if (savedUsername) {
+                document.getElementById('github-url-input').value = `https://github.com/${savedUsername}`;
+            }
+        });
+
+        function startSync() {
+            const input = document.getElementById('github-url-input');
+            const btn = document.getElementById('sync-btn');
+            
+            if (!input.value.trim().includes('github.com/')) {
+                alert("Please enter a valid GitHub profile URL.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="animate-spin h-4 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Syncing Repository Data...
+            `;
+            btn.classList.replace('bg-[#1D4ED8]', 'bg-blue-400');
+
+            /* =========================================================
+            UPCOMING REAL API INTEGRATION 
+            (We will uncomment and use this once the backend is ready)
+            =========================================================
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:8000/jobs/match', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': \`Bearer \${token}\` // Passing the wristband!
+                    },
+                    body: JSON.stringify({ github_url: input.value })
+                });
+                const data = await response.json();
+                // Populate the DOM using 'data' instead of the timeout below
+            } catch (error) {
+                console.error("Failed to sync:", error);
+            }
+            */
+
+            // Temporary mockup simulation
+            setTimeout(() => {
+                btn.innerHTML = 'Profile Synced Successfully ✓';
+                btn.classList.replace('bg-blue-400', 'bg-green-600');
+                
+                const skillsCard = document.getElementById('skills-card');
+                skillsCard.innerHTML = `
+                    <h3 class="text-sm font-bold text-gray-900 mb-4 w-full text-left">Your Top Core Skills</h3>
+                    <div class="w-full flex flex-wrap gap-2 justify-start mt-2">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-[11px] font-medium border border-blue-200">JavaScript</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-[11px] font-medium border border-blue-200">React.js</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-[11px] font-medium border border-gray-200">Python</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-[11px] font-medium border border-gray-200">Tailwind CSS</span>
+                        <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-[11px] font-medium border border-gray-200">Node.js</span>
+                    </div>
+                `;
+
+                const matchesCard = document.getElementById('matches-card');
+                matchesCard.innerHTML = `
+                    <h3 class="text-sm font-bold text-gray-900 w-full text-left">Highest Rated Job Matches</h3>
+                    <div class="w-full mt-4 space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 text-left w-full">
+                            <div>
+                                <h4 class="text-xs font-semibold text-gray-900">Frontend Developer</h4>
+                                <p class="text-[10px] text-gray-500 mt-0.5">Safaricom PLC • Nairobi (Hybrid)</p>
+                            </div>
+                            <span class="text-green-600 text-xs font-bold bg-green-100 px-2 py-1 rounded">94% Match</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-100 text-left w-full">
+                            <div>
+                                <h4 class="text-xs font-semibold text-gray-900">Full Stack Engineer</h4>
+                                <p class="text-[10px] text-gray-500 mt-0.5">Andela • Remote</p>
+                            </div>
+                            <span class="text-green-600 text-xs font-bold bg-green-100 px-2 py-1 rounded">88% Match</span>
+                        </div>
+                    </div>
+                `;
+
+            }, 2000);
+        }
+    
+    </script>
+</body>
+</html>

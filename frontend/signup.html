@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Freshr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-900 antialiased flex flex-col min-h-screen justify-between">
+
+    <header class="bg-white border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div class="w-7 h-7 border-2 border-blue-600 relative flex items-center justify-center font-bold text-blue-600 text-sm">
+                    X
+                </div>
+                <span class="text-lg font-bold text-blue-600 tracking-tight">Freshr</span>
+            </a>
+            <a href="login.html" class="text-xs font-medium text-gray-600 hover:text-gray-900 transition">Already have an account? Log In</a>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4 my-8">
+        <div class="bg-white border border-gray-200/60 rounded-xl shadow-sm max-w-md w-full p-6 sm:p-8">
+            <div class="text-center mb-6">
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Create your account</h1>
+                <p class="text-xs text-gray-500 mt-1">Join Freshr to find AI-tailored tech opportunities.</p>
+            </div>
+
+            <form onsubmit="handleSignup(event)" class="space-y-4">
+                <div>
+                    <label for="name" class="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="name" required placeholder="John Doe"
+                           class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs transition">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-xs font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" required placeholder="you@example.com"
+                           class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs transition">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-xs font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••"
+                           class="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs transition">
+                </div>
+
+                <div class="flex items-start pt-1">
+                    <input type="checkbox" id="terms" required class="h-4 w-4 text-blue-600 border-gray-300 rounded mt-0.5">
+                    <label for="terms" class="ml-2 text-[11px] text-gray-500 leading-normal">
+                        I agree to the <a href="terms.html" class="text-blue-600 hover:underline">Terms & Conditions</a> and <a href="privacy.html" class="text-blue-600 hover:underline">Privacy Policy</a>.
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition text-xs mt-2">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="py-4 text-center border-t border-gray-100 bg-white">
+        <p class="text-[10px] text-gray-400 font-light">© 2026 Freshr.co.ke. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function handleSignup(e) {
+            e.preventDefault(); // Stop the form from reloading the page
+            
+            // 1. Grab the values from your input fields
+            const fullName = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Optional: Grab the submit button so we can change its text while loading
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Creating Account...";
+            submitBtn.disabled = true;
+
+            try {
+                // 2. Send the data to your FastAPI backend
+                const response = await fetch('http://localhost:8000/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password,
+                        full_name: fullName
+                    })
+                });
+
+                const data = await response.json();
+
+                // 3. Check if the backend gave us a thumbs up (HTTP 200 OK)
+                if (response.ok) {
+                    // Success! Alert the user and send them to the login page
+                    alert("Account created successfully! Please log in.");
+                    window.location.href = 'login.html';
+                } else {
+                    // 4. Handle backend errors (like "Email already registered")
+                    alert("Signup failed: " + (data.detail || "Unknown error"));
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+
+            } catch (error) {
+                // 5. Handle network errors (e.g., if the backend isn't running)
+                console.error("Error connecting to the server:", error);
+                alert("Could not connect to the server. Is your backend running?");
+                submitBtn.innerText = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

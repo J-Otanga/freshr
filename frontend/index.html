@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freshr - Find Your Perfect Job Match With AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased">
+
+    <header class="border-b border-gray-100 sticky top-0 bg-white/90 backdrop-blur-md z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-7 h-7 border-2 border-blue-600 relative flex items-center justify-center font-bold text-blue-600 text-sm">
+                    X
+                </div>
+                <span class="text-lg font-bold text-blue-600 tracking-tight">Freshr</span>
+            </div>
+            <nav class="flex items-center space-x-5">
+                <a href="/login.html" class="text-xs font-medium text-gray-600 hover:text-gray-900 transition">Log In</a>
+                <a href="/signup.html" class="text-xs font-medium text-gray-600 hover:text-gray-900 transition">Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="github-section" class="relative bg-slate-900 py-16 md:py-20 flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1920&q=80" 
+                 alt="Developer typing" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-slate-900/95"></div>
+        </div>
+
+        <div class="relative z-10 max-w-3xl mx-auto px-4 text-center">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
+                Find Your Perfect Job Match With AI
+            </h1>
+            <p class="mt-3 text-xs sm:text-sm text-gray-300 max-w-xl mx-auto font-light leading-relaxed">
+                Connect your GitHub profile, discover opportunities tailored to your skills, generate optimized CVs, and track every application in one place.
+            </p>
+
+            <div class="mt-6 max-w-md mx-auto flex flex-col sm:flex-row gap-2 px-2">
+                <div class="relative flex-grow">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 text-xs pointer-events-none">
+                        https://github.com/ 
+                    </span>
+                    <input type="text" id="github-input" placeholder="username" 
+                           class="w-full pl-[110px] pr-3 py-2 bg-white text-gray-900 rounded-md sm:rounded-l-md sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs border-0">
+                </div>
+                <button onclick="handleGitHubConnect()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2 rounded-md sm:rounded-r-md sm:rounded-l-none transition whitespace-nowrap text-xs">
+                    Connect
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 max-w-6xl mx-auto px-4 sm:px-6 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">How It Works</h2>
+        <p class="mt-1 text-xs text-gray-500 max-w-xl mx-auto">
+            Connect your profile, discover relevant jobs, optimize your CV, and track applications.
+        </p>
+
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="border border-gray-100 rounded-lg p-4 flex flex-col items-center bg-white shadow-sm">
+                <div class="p-2 bg-gray-50 rounded-md text-gray-700">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.48 text-m-0.01-.834-.014-1.547-.014-2.33-2.778.603-3.364-1.34-3.364-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.01.069-.01 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.218-.252-4.549-1.11-4.549-4.937 0-1.09.39-1.982 1.029-2.682-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.7 1.028 1.592 1.028 2.682 0 3.837-2.336 4.682-4.558 4.93.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.479C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                </div>
+                <h3 class="mt-3 text-sm font-semibold text-gray-900">Connect Your GitHub</h3>
+                <p class="mt-1.5 text-[11px] text-gray-500 text-center leading-relaxed">Link your repository profile to let our AI analyze your skills and technologies.</p>
+            </div>
+            <div class="border border-gray-100 rounded-lg p-4 flex flex-col items-center bg-white shadow-sm">
+                <div class="p-2 bg-gray-50 rounded-md text-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                </div>
+                <h3 class="mt-3 text-sm font-semibold text-gray-900">Smart Job Matches</h3>
+                <p class="mt-1.5 text-[11px] text-gray-500 text-center leading-relaxed">Receive ranked job recommendations based on your technical expertise.</p>
+            </div>
+            <div class="border border-gray-100 rounded-lg p-4 flex flex-col items-center bg-white shadow-sm">
+                <div class="p-2 bg-gray-50 rounded-md text-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                </div>
+                <h3 class="mt-3 text-sm font-semibold text-gray-900">Tailor Your CV</h3>
+                <p class="mt-1.5 text-[11px] text-gray-500 text-center leading-relaxed">Generate job-specific CVs automatically using AI-powered optimization tools.</p>
+            </div>
+            <div class="border border-gray-100 rounded-lg p-4 flex flex-col items-center bg-white shadow-sm">
+                <div class="p-2 bg-gray-50 rounded-md text-gray-700">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                </div>
+                <h3 class="mt-3 text-sm font-semibold text-gray-900">Apply & Track</h3>
+                <p class="mt-1.5 text-[11px] text-gray-500 text-center leading-relaxed">Monitor application status from submission all the way through to interview.</p>
+            </div>
+        </div>
+
+        <a href="#github-section" class="mt-6 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-5 py-2 rounded-md inline-flex items-center space-x-1 transition">
+            <span>Start Now</span> <span>↗</span>
+        </a>
+    </section>
+
+    <section class="py-12 bg-slate-50 border-t border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">Testimonials</h2>
+            <p class="mt-1 text-xs text-gray-500 max-w-xl mx-auto">What our users say about us</p>
+
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+                <div class="border border-gray-200/60 rounded-lg p-4 bg-white shadow-sm flex flex-col justify-between">
+                    <p class="text-xs text-gray-500 leading-relaxed">Freshr completely skipped the generic resume screening loop for me. It picked up my Python project work straight from GitHub and matched me directly to an open role within days.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-8 h-8 rounded-full object-cover" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80" alt="Avatar">
+                            <div>
+                                <h4 class="text-xs font-semibold text-gray-900">Alex Student</h4>
+                                <p class="text-[9px] text-gray-400">alex@freshr.com</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-[10px]">★★★★★</div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200/60 rounded-lg p-4 bg-white shadow-sm flex flex-col justify-between">
+                    <p class="text-xs text-gray-500 leading-relaxed">Highly intuitive concept. No longer wasting hours applying to jobs that demand tech stacks I haven't worked with. The language analytics do the heavy lifting.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-8 h-8 rounded-full object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&q=80" alt="Avatar">
+                            <div>
+                                <h4 class="text-xs font-semibold text-gray-900">Jane Mwangi</h4>
+                                <p class="text-[9px] text-gray-400">jane.m@devs.co.ke</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-[10px]">★★★★★</div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200/60 rounded-lg p-4 bg-white shadow-sm flex flex-col justify-between">
+                    <p class="text-xs text-gray-500 leading-relaxed">The direct mapping feature is a lifesaver. It generated an optimized CV layout that clearly emphasized my actual framework contributions. Highly recommended.</p>
+                    <div class="mt-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <img class="w-8 h-8 rounded-full object-cover" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&q=80" alt="Avatar">
+                            <div>
+                                <h4 class="text-xs font-semibold text-gray-900">David Ochieng</h4>
+                                <p class="text-[9px] text-gray-400">david.och@freshr.com</p>
+                            </div>
+                        </div>
+                        <div class="text-yellow-400 text-[10px]">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#1D4ED8] text-white py-8 border-t border-blue-500">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                
+                <div class="space-y-2">
+                    <h2 class="text-2xl font-bold tracking-tight">Freshr</h2>
+                    <p class="text-[11px] text-blue-200 font-light">©2026. Freshr.co.ke</p>
+                </div>
+
+                <div class="space-y-2">
+                    <h3 class="text-xs font-semibold text-white tracking-wider uppercase">Contact Us</h3>
+                    <p class="text-xs text-blue-100 font-light max-w-xs leading-normal">
+                        Need technical assistance or platform support? Connect with our admin team directly.
+                    </p>
+                    <div class="space-y-1.5 pt-1">
+                        <div class="flex items-center space-x-2 text-blue-500">
+                            <svg class="w-3.5 h-3.5 text-blue-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            <span class="text-xs text-white font-medium cursor-default">+254 700 000 000</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-blue-500">
+                            <svg class="w-3.5 h-3.5 text-blue-100" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <a href="mailto:admin@freshr.co.ke" class="text-xs text-white hover:underline transition font-medium">admin@freshr.co.ke</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 text-xs font-light pt-2 md:pt-0">
+                    <ul class="space-y-2 text-blue-100">
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition">Terms & conditions</a></li>
+                    </ul>
+                    <ul class="space-y-2 text-blue-100">
+                        <li><a href="/signup.html" class="hover:text-white transition">Register</a></li>
+                        <li><a href="/login.html" class="hover:text-white transition">Log In</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleGitHubConnect() {
+            const usernameInput = document.getElementById('github-input').value.trim();
+            if (usernameInput) {
+                localStorage.setItem('prefilled_github', usernameInput);
+                alert(`Redirecting to registration with GitHub handle: ${usernameInput}`);
+                window.location.href = '/signup.html';
+            } else {
+                alert('Please enter a valid GitHub username first.');
+            }
+        }
+    </script>
+</body>
+</html>
