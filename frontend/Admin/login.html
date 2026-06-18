@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Freshr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-gray-900 antialiased flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-md">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold tracking-wide text-[#2563EB]">Freshr</h1>
+            <p class="text-sm text-gray-500 mt-2">Administrative Control Panel</p>
+        </div>
+
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-8">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-gray-900">Sign In</h2>
+                <p class="text-xs text-gray-400 mt-1">Enter your admin credentials to access the system dashboard.</p>
+            </div>
+
+            <form id="loginForm" class="space-y-5">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Work Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.206"></path></svg>
+                        </span>
+                        <input id="email" type="email" required placeholder="name@freshr.com" class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-sm font-medium text-gray-700">Password</label>
+                        <a href="#" class="text-xs text-blue-600 hover:underline">Forgot password?</a>
+                    </div>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        </span>
+                        <input id="password" type="password" required placeholder="••••••••" class="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                    </div>
+                </div>
+
+                <div class="flex items-center">
+                    <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                    <label for="remember-me" class="ml-2 block text-xs text-gray-500 select-none">
+                        Keep me logged in for 30 days
+                    </label>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 bg-[#2563EB] rounded-lg text-sm font-semibold text-white hover:bg-blue-700 transition shadow-sm mt-2">
+                    Access Dashboard
+                </button>
+            </form>
+        </div>
+
+        <p class="text-center text-xs text-gray-400 mt-6">
+            Need a management account? <a href="registration.html" class="text-blue-600 font-medium hover:underline">Register admin</a>
+        </p>
+    </div>
+
+<script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // 1. Create a standard JavaScript object
+            // Note: If your backend Pydantic schema expects "username" instead of "email", 
+            // change the key below from 'email' to 'username'.
+            const payload = {
+                email: document.getElementById('email').value, 
+                password: document.getElementById('password').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:8000/api/admin/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        // 2. Explicitly tell FastAPI we are sending JSON
+                        'Content-Type': 'application/json' 
+                    },
+                    // 3. Convert the object to a JSON string
+                    body: JSON.stringify(payload) 
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // Save the JWT token and redirect
+                    localStorage.setItem('adminToken', result.access_token);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Properly format the error message
+                    const errorMessage = typeof result.detail === 'string' 
+                        ? result.detail 
+                        : JSON.stringify(result.detail);
+                        
+                    alert('Login failed: ' + errorMessage);
+                }
+            } catch (error) {
+                alert('Connection error. Is your FastAPI server running?');
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
