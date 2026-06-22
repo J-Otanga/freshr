@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Matches - Freshr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased flex h-screen overflow-hidden relative">
+
+    <aside class="w-64 bg-[#2563EB] text-white flex flex-col py-4 justify-between shrink-0">
+        <div class="flex flex-col w-full">
+            <div class="px-6 flex items-center justify-between mb-8">
+                <span class="text-xl font-bold tracking-wide">Freshr</span>
+                <button class="hover:opacity-80 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+            <nav class="px-4 space-y-2">
+                <a href="studentDashboard.html" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Home
+                </a>
+                <a href="jobMatches.html" class="flex items-center p-3 bg-white/20 rounded-lg text-white transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Job Matches
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    Applications
+                </a>
+                <a href="cvStudio.html" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    CV Studio
+                </a>
+            </nav>
+        </div>
+
+        <div class="px-4 space-y-2">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Settings
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Log Out
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden bg-gray-50/50 z-0">
+        <header class="h-16 flex items-center justify-between px-8 border-b border-gray-200 bg-white">
+            <span class="text-sm font-medium text-gray-500">Job Matches</span>
+            <div class="flex items-center space-x-5">
+                <button class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                </button>
+                <div class="w-7 h-7 rounded-full bg-gray-200 overflow-hidden border border-gray-300">
+                    <img src="https://ui-avatars.com/api/?name=User&background=EBF4FF&color=2563EB" alt="User" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-6xl mx-auto">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Top Job Matches For You</h1>
+                <div id="jobs-container" class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    <div id="loading-skeleton" class="col-span-full py-12 text-center">
+                        <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-[#2563EB]"></div>
+                        <p class="mt-4 text-gray-500 font-medium">Finding the best matches...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL 1: PURE JOB DETAILS POP-UP -->
+    <div id="details-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden transform scale-100 transition-transform flex flex-col max-h-[85vh]">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center shrink-0">
+                <h2 class="text-lg font-bold text-gray-900">Job Details</h2>
+                <button id="close-details-btn" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 flex-1">
+                <div class="flex items-start space-x-4">
+                    <div class="w-12 h-12 shrink-0 bg-[#E5EDFF] text-[#1E3A8A] rounded-xl flex items-center justify-center font-bold text-lg" id="details-initials">--</div>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900" id="details-job-title">Job Title</h3>
+                        <p class="text-sm text-gray-600" id="details-company">Company Name</p>
+                        <p class="text-xs font-medium text-[#2563EB] mt-1" id="details-match-text">--</p>
+                    </div>
+                </div>
+                <hr class="border-gray-100">
+                <div>
+                    <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wide mb-2">Role Requirements & Description</h4>
+                    <div id="details-description" class="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">
+                        Loading...
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end space-x-3 shrink-0">
+                <button id="details-close-footer" class="px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-100 transition cursor-pointer">
+                    Close
+                </button>
+                <button id="details-tailor-btn" class="px-5 py-2 bg-[#10B981] text-white rounded-xl text-sm font-bold hover:bg-emerald-600 transition flex items-center space-x-1 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    <span>Tailor My CV</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 2: APPLICATION STRATEGY POP-UP -->
+    <div id="apply-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-gray-900/40 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden transform scale-100 transition-transform">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-bold text-gray-900">Application Strategy</h2>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="flex items-start space-x-4 mb-6">
+                    <div class="w-12 h-12 shrink-0 bg-[#E5EDFF] text-[#1E3A8A] rounded-xl flex items-center justify-center font-bold text-lg" id="modal-initials">--</div>
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900" id="modal-job-title">Job Title</h3>
+                        <p class="text-sm text-gray-600" id="modal-company">Company Name</p>
+                        <p class="text-xs font-medium text-[#2563EB] mt-1" id="modal-match-text">--</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <a href="#" id="modal-apply-link" target="_blank" class="block border border-gray-200 rounded-xl p-4 hover:border-[#2563EB] hover:bg-blue-50/50 transition group cursor-pointer">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 group-hover:text-[#2563EB]">Quick Apply with Master CV</h4>
+                                <p class="text-xs text-gray-500 mt-1">Use your standard Freshr profile to apply immediately.</p>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-[#2563EB]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </a>
+                    <a id="modal-tailor-btn" class="block border border-gray-200 rounded-xl p-4 hover:border-[#10B981] hover:bg-green-50/50 transition group cursor-pointer relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-[#10B981] text-white text-[10px] font-bold px-2 py-1 rounded-bl-lg">RECOMMENDED</div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="text-sm font-bold text-gray-900 group-hover:text-[#10B981]">Enter Tailor Mode</h4>
+                                <p class="text-xs text-gray-500 mt-1">Go to CV Studio to highlight specific skills for this role.</p>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400 group-hover:text-[#10B981]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.fetchedJobs = [];
+        let currentSelectedJob = null; 
+
+        function formatText(text) {
+            if (!text) return '';
+            return text.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('-');
+        }
+
+        function getInitials(companyName) {
+            if (!companyName) return 'NA';
+            const words = companyName.trim().split(' ');
+            if (words.length === 1) return words[0].substring(0, 2).toUpperCase();
+            return (words[0][0] + words[1][0]).toUpperCase();
+        }
+
+        // Modal Controllers
+        const detailsModal = document.getElementById('details-modal');
+        const applyModal = document.getElementById('apply-modal');
+
+        // Open Strategy Modal
+        function openApplyModal(jobIndex, initials, matchPercent) {
+            currentSelectedJob = window.fetchedJobs[jobIndex]; 
+            document.querySelectorAll('#modal-job-title').forEach(el => el.innerText = currentSelectedJob.title);
+            document.querySelectorAll('#modal-company').forEach(el => el.innerText = currentSelectedJob.company);
+            document.querySelectorAll('#modal-initials').forEach(el => el.innerText = initials);
+            document.querySelectorAll('#modal-match-text').forEach(el => el.innerText = `You are a ${matchPercent}% match for this role.`);
+            
+            const applyLink = document.getElementById('modal-apply-link');
+            applyLink.href = currentSelectedJob.application_link || '#';
+            applyModal.classList.remove('hidden');
+        }
+
+        // Open Pure Details Modal
+        function openDetailsModal(jobIndex, initials, matchPercent) {
+            currentSelectedJob = window.fetchedJobs[jobIndex];
+            document.getElementById('details-job-title').innerText = currentSelectedJob.title;
+            document.getElementById('details-company').innerText = currentSelectedJob.company;
+            document.getElementById('details-initials').innerText = initials;
+            document.getElementById('details-match-text').innerText = `You are a ${matchPercent}% match for this role.`;
+            document.getElementById('details-description').innerText = currentSelectedJob.description || currentSelectedJob.requirements || "No detailed description provided for this role.";
+            detailsModal.classList.remove('hidden');
+        }
+
+        // Global Packing Function
+        function proceedToTailor() {
+            if (!currentSelectedJob) return; 
+            
+            // SAVE USING THE EXACT KEYS CV STUDIO EXPECTS
+            localStorage.setItem('targetRole', currentSelectedJob.title);
+            localStorage.setItem('targetCompany', currentSelectedJob.company);
+            localStorage.setItem('targetDescription', currentSelectedJob.description || currentSelectedJob.requirements || "General job description text.");
+            
+            window.location.href = 'cvStudio.html';
+        }
+
+        // Event Connections
+        document.getElementById('modal-tailor-btn').onclick = proceedToTailor;
+        document.getElementById('details-tailor-btn').onclick = proceedToTailor;
+
+        // Closing Handlers
+        document.getElementById('close-modal-btn').onclick = () => applyModal.classList.add('hidden');
+        document.getElementById('close-details-btn').onclick = () => detailsModal.classList.add('hidden');
+        document.getElementById('details-close-footer').onclick = () => detailsModal.classList.add('hidden');
+
+        window.onclick = (e) => {
+            if (e.target === applyModal) applyModal.classList.add('hidden');
+            if (e.target === detailsModal) detailsModal.classList.add('hidden');
+        };
+
+        // Fetch Pipeline
+        document.addEventListener("DOMContentLoaded", async () => {
+            const jobsContainer = document.getElementById('jobs-container');
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/jobs/');
+                if (!response.ok) throw new Error('Failed to fetch jobs');
+
+                const jobs = await response.json();
+                window.fetchedJobs = jobs; 
+                jobsContainer.innerHTML = ''; 
+
+                if (jobs.length === 0) {
+                    jobsContainer.innerHTML = `<div class="col-span-full text-center text-gray-500 mt-8">No jobs found.</div>`;
+                    return;
+                }
+
+                jobs.forEach((job, index) => {
+                    const matchPercent = Math.floor(Math.random() * 14) + 85;
+                    const initials = getInitials(job.company);
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl border border-gray-200 p-4 flex justify-between items-center shadow-sm hover:shadow-md transition';
+                    
+                    card.innerHTML = `
+                        <div class="flex items-center space-x-4 overflow-hidden pr-4">
+                            <div class="w-14 h-14 shrink-0 bg-[#FCE8E8] text-[#D93838] rounded-xl flex items-center justify-center font-bold text-xl tracking-wide">
+                                ${initials}
+                            </div>
+                            <div class="min-w-0">
+                                <h3 class="text-base font-bold text-gray-900 truncate" title="${job.title}">${job.title}</h3>
+                                <p class="text-sm text-gray-600 truncate">${job.company}</p>
+                                <div class="flex items-center space-x-6 mt-1.5 text-xs text-gray-500">
+                                    <span class="flex items-center">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        ${job.location}
+                                    </span>
+                                    <span class="flex items-center">
+                                        <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        ${formatText(job.employment_type)}
+                                    </span>
+                                </div>
+                                <button onclick="openDetailsModal(${index}, '${initials}', ${matchPercent})" class="mt-2.5 text-xs font-semibold text-[#2563EB] hover:text-blue-800 transition flex items-center space-x-1 cursor-pointer">
+                                    <span>View Details</span>
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center shrink-0 w-28">
+                            <div class="bg-[#E5EDFF] text-[#1E3A8A] rounded-lg px-2 py-2.5 text-center w-full mb-2">
+                                <span class="block font-bold text-base leading-none">${matchPercent}%</span>
+                                <span class="text-[10px] font-semibold uppercase tracking-wide mt-1 block">Match</span>
+                            </div>
+                            <button onclick="openApplyModal(${index}, '${initials}', ${matchPercent})" class="w-full text-center border border-gray-300 rounded-lg text-xs font-medium text-gray-700 py-1.5 hover:bg-gray-50 transition cursor-pointer">
+                                Apply
+                            </button>
+                        </div>
+                    `;
+                    jobsContainer.appendChild(card);
+                });
+            } catch (error) {
+                console.error(error);
+                jobsContainer.innerHTML = `<div class="col-span-full text-center text-red-500 mt-8">Unable to load matches.</div>`;
+            }
+        });
+    </script>
+</body>
+</html>

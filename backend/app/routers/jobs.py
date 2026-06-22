@@ -1,69 +1,114 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
-import json  # Added to safely parse data if it comes back stringified
-from .. import models, schemas, database
-from . import auth
+
+from app import models, schemas
+from app.database import get_db
+from app.routers import adminAuth  # Import the admin authentication router
 
 router = APIRouter(prefix="/api/v1/jobs", tags=["Jobs"])
+
+# --- PROTECTED ADMIN ROUTES ---
 
 @router.post("/", response_model=schemas.JobResponse, status_code=status.HTTP_201_CREATED)
 def create_job(
     job: schemas.JobCreate, 
-    db: Session = Depends(database.get_db),
-    current_user: models.User = Depends(auth.get_current_user)  # <--- THE BOUNCER
+    db: Session = Depends(get_db),
+    # The Bouncer: Requires a valid Admin JWT token!
+    current_admin: models.Admin = Depends(adminAuth.get_current_admin) 
 ):
+    """
+    Creates a new job. 
+    Only verified administrators can access this endpoint.
+    """
     new_job = models.Job(
         title=job.title,
         company=job.company,
-        description=job.description,
+        location=job.location,                  
+        experience_level=job.experience_level,  
+        employment_type=job.employment_type,    
         salary=job.salary,
+        application_link=job.application_link,  
+        description=job.description,
         required_languages=job.required_languages
     )
+    
     db.add(new_job)
     db.commit()
     db.refresh(new_job)
+    
     return new_job
 
-@router.get("/my-matches", response_model=List[schemas.JobResponse])
-def get_my_matches(
-    db: Session = Depends(database.get_db),
-    current_user: models.User = Depends(auth.get_current_user) # The token tells us exactly who this is!
+
+@router.put("/{job_id}", response_model=schemas.JobResponse)
+def update_job(
+    job_id: int, 
+    updated_job: schemas.JobCreate, 
+    db: Session = Depends(get_db),
+    # The Bouncer: Requires a valid Admin JWT token!
+    current_admin: models.Admin = Depends(adminAuth.get_current_admin)
 ):
     """
-    Student-Facing Endpoint: Automatically fetches jobs matching the logged-in student's tech stack.
+    Updates an existing job.
+    Only verified administrators can access this endpoint.
     """
-    # 1. We don't need to look up the user by a URL parameter anymore. 
-    # 'current_user' IS the student who sent the request!
-    user_languages = set()
-    if current_user.top_languages:
-        raw_data = current_user.top_languages
-        if isinstance(raw_data, str):
-            try:
-                raw_data = json.loads(raw_data)
-            except Exception:
-                raw_data = {}
+    job_query = db.query(models.Job).filter(models.Job.id == job_id)
+    job = job_query.first()
+
+    if not job:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job with id {job_id} does not exist")
+
+    # Update the job with the new data dictionary
+    job_query.update(updated_job.dict(), synchronize_session=False)
+    db.commit()
+
+    return job_query.first()
+
+
+@router.delete("/{job_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_job(
+    job_id: int, 
+    db: Session = Depends(get_db),
+    # The Bouncer: Requires a valid Admin JWT token!
+    current_admin: models.Admin = Depends(adminAuth.get_current_admin)
+):
+    """
+    Deletes a job by its ID. 
+    Only verified administrators can access this endpoint.
+    """
+    job_query = db.query(models.Job).filter(models.Job.id == job_id)
+    job = job_query.first()
+
+    if not job:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job with id {job_id} does not exist")
+
+    job_query.delete(synchronize_session=False)
+    db.commit()
+
+    return {"message": "Job successfully deleted"}
+
+
+# --- PUBLIC / STUDENT ROUTES ---
+
+@router.get("/", response_model=List[schemas.JobResponse])
+def get_all_jobs(db: Session = Depends(get_db)):
+    """
+    Fetches all active jobs.
+    This is accessible to anyone (or you can add your student auth bouncer here later).
+    """
+    jobs = db.query(models.Job).all()
+    return jobs
+
+
+@router.get("/{job_id}", response_model=schemas.JobResponse)
+def get_single_job(job_id: int, db: Session = Depends(get_db)):
+    """
+    Fetches a single job by its ID.
+    Accessible to anyone.
+    """
+    job = db.query(models.Job).filter(models.Job.id == job_id).first()
+    
+    if not job:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Job with id {job_id} does not exist")
         
-        if isinstance(raw_data, dict):
-            user_languages = set(raw_data.keys())
-        elif isinstance(raw_data, list):
-            user_languages = set(raw_data)
-
-    # 2. Fetch all jobs to compare against
-    all_jobs = db.query(models.Job).all()
-    matched_jobs = []
-
-    # 3. Match the logged-in student against the job requirements
-    for job in all_jobs:
-        job_reqs = set()
-        if job.required_languages:
-            raw_reqs = job.required_languages
-            if isinstance(raw_reqs, list):
-                job_reqs = set(raw_reqs)
-
-        if job_reqs and job_reqs.issubset(user_languages):
-            matched_jobs.append(job)
-        elif not job_reqs:
-            matched_jobs.append(job)
-
-    return matched_jobs
+    return job

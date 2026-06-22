@@ -82,54 +82,13 @@
                             <tr class="bg-gray-50 border-b border-gray-200 text-sm font-semibold text-gray-700">
                                 <th class="px-6 py-4">Job Title</th>
                                 <th class="px-6 py-4">Company</th>
-                                <th class="px-6 py-4">Date Posted</th>
+                                <th class="px-6 py-4">Location</th>
                                 <th class="px-6 py-4 text-center">Action</th>
                             </tr>
                         </thead>
                         
                         <tbody class="text-sm text-gray-600 divide-y divide-gray-200" id="admin-jobs-list">
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 font-medium text-gray-900">Software Engineer</td>
-                                <td class="px-6 py-4">Google</td>
-                                <td class="px-6 py-4">12/12/2021</td>
-                                <td class="px-6 py-4 flex items-center justify-center space-x-3">
-                                    <button class="px-3 py-1.5 border border-[#2563EB] text-[#2563EB] text-xs font-medium rounded hover:bg-blue-50 transition">
-                                        Update Details
-                                    </button>
-                                    <button class="px-3 py-1.5 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 font-medium text-gray-900">Backend Developer</td>
-                                <td class="px-6 py-4">Microsoft</td>
-                                <td class="px-6 py-4">15/01/2022</td>
-                                <td class="px-6 py-4 flex items-center justify-center space-x-3">
-                                    <button class="px-3 py-1.5 border border-[#2563EB] text-[#2563EB] text-xs font-medium rounded hover:bg-blue-50 transition">
-                                        Update Details
-                                    </button>
-                                    <button class="px-3 py-1.5 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-
-                            <tr class="hover:bg-gray-50 transition">
-                                <td class="px-6 py-4 font-medium text-gray-900">Frontend Developer</td>
-                                <td class="px-6 py-4">Meta</td>
-                                <td class="px-6 py-4">22/03/2022</td>
-                                <td class="px-6 py-4 flex items-center justify-center space-x-3">
-                                    <button class="px-3 py-1.5 border border-[#2563EB] text-[#2563EB] text-xs font-medium rounded hover:bg-blue-50 transition">
-                                        Update Details
-                                    </button>
-                                    <button class="px-3 py-1.5 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
@@ -137,5 +96,95 @@
         </div>
     </main>
 
+    <script>
+        // Run this code immediately when the page loads
+        document.addEventListener('DOMContentLoaded', fetchAndDisplayJobs);
+
+        // 1. Function to Fetch Jobs
+        async function fetchAndDisplayJobs() {
+            const tableBody = document.getElementById('admin-jobs-list');
+            tableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center">Loading jobs...</td></tr>';
+
+            try {
+                // Hitting the public GET route we created
+                const response = await fetch('http://localhost:8000/api/v1/jobs/');
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch jobs');
+                }
+
+                const jobs = await response.json();
+                tableBody.innerHTML = ''; // Clear loading text
+
+                if (jobs.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No jobs published yet.</td></tr>';
+                    return;
+                }
+
+                // Loop through the data and build a row for each job
+                jobs.forEach(job => {
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-gray-50 transition';
+                    
+                    // Note: Date posted changed to Location since our model didn't have a date field
+                    row.innerHTML = `
+                        <td class="px-6 py-4 font-medium text-gray-900">${job.title}</td>
+                        <td class="px-6 py-4">${job.company}</td>
+                        <td class="px-6 py-4">${job.location || 'Remote'}</td>
+                        <td class="px-6 py-4 flex items-center justify-center space-x-3">
+                            <a href="editJob.html?id=${job.id}" class="inline-block px-3 py-1.5 border border-[#2563EB] text-[#2563EB] text-xs font-medium rounded hover:bg-blue-50 transition">
+                                 Update
+                            </a>
+                            <button onclick="deleteJob(${job.id})" class="px-3 py-1.5 bg-red-500 text-white text-xs font-medium rounded hover:bg-red-600 transition">
+                                Delete
+                            </button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error("Error:", error);
+                tableBody.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Failed to load jobs. Check server connection.</td></tr>';
+            }
+        }
+
+        // 2. Function to Delete a Job
+        async function deleteJob(jobId) {
+            // Confirm with user before deleting
+            if (!confirm("Are you sure you want to delete this job? This cannot be undone.")) {
+                return;
+            }
+
+            // Grab the admin token from local storage
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                alert("You are not logged in! Please log in first.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                // Make the DELETE request
+                const response = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}` // The Bouncer needs this!
+                    }
+                });
+
+                if (response.ok) {
+                    // Success! Refresh the list to remove the deleted job
+                    fetchAndDisplayJobs();
+                } else {
+                    const errorData = await response.json();
+                    alert("Failed to delete job: " + (errorData.detail || "Unknown error"));
+                }
+            } catch (error) {
+                console.error("Error deleting job:", error);
+                alert("A network error occurred while trying to delete.");
+            }
+        }
+    </script>
 </body>
 </html>

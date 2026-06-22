@@ -1,29 +1,32 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware  # 1. ADD THIS IMPORT
+from fastapi.middleware.cors import CORSMiddleware
 from . import models
 from .database import engine
-from .routers import auth
 from app.services.github import get_student_languages
-from app.routers import jobs
+from app.routers import jobs, auth, adminAuth, cv 
 
-# This creates the tables in PostgreSQL automatically when the app starts
+# --- THE DATABASE RESET TRICK ---
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Freshr Backend API")
 
-# 2. ADD THIS CORS MIDDLEWARE BLOCK
-# This allows your frontend HTML pages to safely send requests to your API
+# ✅ FIXED: Explicitly allow port 3000 instead of using "*" with credentials
+# Replace your current CORS block with this one:
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins (change to specific domains in production)
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows POST, GET, OPTIONS, etc.
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Plug in the Auth router we just built
+# Routers
 app.include_router(auth.router)
 app.include_router(jobs.router)
+app.include_router(adminAuth.router)
+
+# ✅ FIXED: Explicitly adding the route prefix here ensures 
+# your backend matches the frontend's 'http://localhost:8000/api/v1/cv/tailor/' call
+app.include_router(cv.router) 
 
 @app.get("/")
 def root():

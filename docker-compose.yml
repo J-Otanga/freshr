@@ -13,19 +13,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   # 2. Your FastAPI Container (Backend)
+# 2. Your FastAPI Container (Backend)
   api:
     build: 
       context: ./backend    # Points exactly to your backend folder
       dockerfile: Dockerfile
     ports:
-      - "${API_PORT:-8000}:8000"
+      - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - GEMINI_API_KEY={GEMINI_API_KEY} # Pass the Gemini API key to the backend
     depends_on:
       - db
     volumes:
       - ./backend:/app      # Mounts only the backend code for live reloading
-
   # 3. Your Nginx Container (Frontend)
   frontend:
     image: nginx:alpine

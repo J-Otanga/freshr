@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Studio - Freshr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Custom scrollbar handling for elegant split screens */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #CBD5E1; }
+        
+        /* AI Highlight Animation */
+        @keyframes aiPulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 6px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+        .ai-highlight {
+            border-color: #8B5CF6 !important;
+            background-color: #F5F3FF !important;
+            animation: aiPulse 1.5s infinite;
+        }
+
+        /* PRINT-TO-PDF OPTIMIZATION ENGINE */
+        @media print {
+            aside, header, .bg-blue-50, #add-exp-btn, .delete-exp-btn,
+            main > div:first-of-type > div:first-child {
+                display: none !important;
+            }
+            
+            body, main, .bg-gray-100\/50 {
+                background-color: white !important;
+                overflow: visible !important;
+                height: auto !important;
+            }
+
+            #cv-preview-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                width: 100% !important;
+                min-height: auto !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900 antialiased flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-[#2563EB] text-white flex flex-col py-4 justify-between shrink-0">
+        <div class="flex flex-col w-full">
+            <div class="px-6 flex items-center justify-between mb-8">
+                <span class="text-xl font-bold tracking-wide">Freshr</span>
+                <button class="hover:opacity-80 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+            </div>
+            <nav class="px-4 space-y-2">
+                <a href="dashboard.html" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Home
+                </a>
+                <a href="jobMatches.html" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Job Matches
+                </a>
+                <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
+                    Applications
+                </a>
+                <a href="cvStudio.html" class="flex items-center p-3 bg-white/20 rounded-lg text-white transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    CV Studio
+                </a>
+            </nav>
+        </div>
+        <div class="px-4 space-y-2">
+            <a href="#" class="flex items-center p-3 rounded-lg hover:bg-white/10 transition text-white/80 hover:text-white">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Settings
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden bg-gray-50/50">
+        
+        <header class="h-16 flex items-center justify-between px-8 bg-white border-b border-gray-200 shrink-0">
+            <div class="flex items-center space-x-3">
+                <span class="text-sm font-medium text-gray-500">CV Studio Workspace</span>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <button id="github-sync-btn" class="flex items-center space-x-2 border border-gray-300 text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium hover:bg-gray-50 transition">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    <span>Sync GitHub</span>
+                </button>
+                <button onclick="window.print()" class="bg-gray-900 text-white px-4 py-1.5 rounded-lg text-xs font-medium hover:bg-black transition shadow-sm">
+                    Export PDF / Submit
+                </button>
+            </div>
+        </header>
+
+        <div class="bg-blue-50 border-b border-blue-100 px-8 py-3 flex items-center justify-between shrink-0">
+            <div class="flex items-center space-x-3">
+                <span class="flex h-2 w-2 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                </span>
+                <span class="text-gray-500">
+                    Tailoring for: <span id="dynamic-job-header" class="text-blue-900 font-bold">General Position</span>
+                </span>
+            </div>
+            <button id="ai-tailor-btn" class="flex items-center space-x-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-4 py-1.5 rounded-full text-xs font-bold hover:opacity-90 transition shadow-lg shadow-purple-500/30">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span id="ai-btn-text">Tailor with AI ✨</span>
+            </button>
+        </div>
+
+        <div class="flex-1 flex overflow-hidden">
+            
+            <div class="w-1/2 overflow-y-auto p-8 border-r border-gray-200 custom-scrollbar bg-white">
+                <div class="max-w-xl mx-auto space-y-8">
+                    
+                    <div class="space-y-4 border-t border-gray-100 pt-6 mt-0">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Personal Details</h3>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-700 mb-1">Full Name</label>
+                                <input type="text" id="input-name" placeholder="Alex Mercer" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-700 mb-1">Professional Title</label>
+                                <input type="text" id="input-title" placeholder="Backend Engineer" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition transition-all duration-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 border-t border-gray-100 pt-6 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Professional Summary</h3>
+                            <span id="badge-summary" class="hidden bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">✨ AI Rewritten</span>
+                        </div>
+                        <div>
+                            <textarea id="input-summary" rows="4" placeholder="Briefly introduce your technical background..." class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-500 resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 border-t border-gray-100 pt-6 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Skills & Technologies</h3>
+                            <span id="badge-skills" class="hidden bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">✨ Optimized</span>
+                        </div>
+                        <div>
+                            <input type="text" id="input-skills" placeholder="Python, Django, PostgreSQL, Docker" class="w-full border border-gray-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all duration-500">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 border-t border-gray-100 pt-6 relative">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wider">Key Projects / Experiences</h3>
+                            <span id="badge-exp" class="hidden bg-purple-100 text-purple-700 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">✨ Tailored for ATS</span>
+                        </div>
+                        
+                        <div id="experience-inputs-container" class="space-y-4"></div>
+                        
+                        <button id="add-exp-btn" type="button" class="w-full flex items-center justify-center space-x-1 border border-dashed border-gray-300 text-gray-500 hover:text-blue-600 hover:border-blue-400 hover:bg-blue-50/30 py-3 rounded-xl text-xs font-semibold transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            <span>Add New Experience Segment</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="w-1/2 overflow-y-auto p-8 custom-scrollbar flex justify-center items-start bg-gray-100/50">
+                <div class="w-[595px] min-h-[842px] bg-white shadow-md border border-gray-200 p-10 flex flex-col justify-between transition-all duration-300" id="cv-preview-sheet">
+                    <div>
+                        <div class="border-b-2 border-gray-900 pb-4">
+                            <h1 id="preview-name" class="text-2xl font-bold tracking-tight text-gray-900 uppercase">Your Name</h1>
+                            <p id="preview-title" class="text-sm font-medium text-[#2563EB] mt-0.5 transition-colors duration-500">Professional Title</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2">Professional Summary</h4>
+                            <p id="preview-summary" class="text-xs text-gray-600 leading-relaxed transition-all duration-500">Your structured career objective will dynamically generate here.</p>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-2">Technical Competencies</h4>
+                            <div id="preview-skills-container" class="flex flex-wrap gap-1.5 transition-all duration-500">
+                                <span class="bg-gray-100 text-gray-800 text-[10px] font-medium px-2 py-0.5 rounded">Skill Placeholder</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-6">
+                            <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">Highlighted Experience</h4>
+                            <div id="preview-experience-container" class="border-l-2 border-gray-100 pl-4 space-y-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        
+        // ==========================================
+        // 1. DYNAMIC JOB TARGETING ROUTINE 
+        // ==========================================
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Check URL params first (if sent via link), fallback to localStorage (from Job Matches page)
+        const targetRole = urlParams.get('role') || localStorage.getItem('targetRole');
+        const targetCompany = urlParams.get('company') || localStorage.getItem('targetCompany');
+        const targetDescription = urlParams.get('description') || localStorage.getItem('targetDescription');
+        
+        const jobHeader = document.getElementById('dynamic-job-header');
+
+        // Overwrite the "General Position" text with our new target data instantly
+        if (jobHeader) {
+            if (targetRole && targetCompany) {
+                jobHeader.innerText = `${targetRole} at ${targetCompany}`;
+            } else if (targetRole) {
+                jobHeader.innerText = targetRole;
+            } else {
+                jobHeader.innerText = "General Position";
+            }
+        }
+        
+        // Expose the current target job description to the window for the AI Tailoring engine
+        window.currentTargetJobDescription = targetDescription 
+            ? targetDescription 
+            : `Looking for a ${targetRole || 'candidate'} contextually built for ${targetCompany || 'the target company'}.`;
+
+        // ==========================================
+        // UI AND STATE REFERENCES
+        // ==========================================
+        let experiences = [{ role: '', company: '', desc: '' }];
+
+        const inputs = {
+            name: document.getElementById('input-name'),
+            title: document.getElementById('input-title'),
+            summary: document.getElementById('input-summary'),
+            skills: document.getElementById('input-skills')
+        };
+
+        const previews = {
+            name: document.getElementById('preview-name'),
+            title: document.getElementById('preview-title'),
+            summary: document.getElementById('preview-summary'),
+            skillsContainer: document.getElementById('preview-skills-container')
+        };
+
+        // Basic Syncing Synthetic Event Dispatcher
+        function triggerSync(element, eventType = 'input') {
+            if (!element) return;
+            const event = new Event(eventType, { bubbles: true });
+            element.dispatchEvent(event);
+        }
+
+        // ==========================================
+        // 2. LOCALSTORAGE STATE PERSISTENCE CONTROLLERS
+        // ==========================================
+        function saveToLocalStorage() {
+            const serializationPayload = {
+                name: inputs.name.value,
+                title: inputs.title.value,
+                summary: inputs.summary.value,
+                skills: inputs.skills.value,
+                experiences: experiences 
+            };
+            localStorage.setItem('cvStudioData', JSON.stringify(serializationPayload));
+        }
+
+        function loadFromLocalStorage() {
+            const storedSession = localStorage.getItem('cvStudioData');
+            if (storedSession) {
+                const dynamicState = JSON.parse(storedSession);
+                inputs.name.value = dynamicState.name || '';
+                inputs.title.value = dynamicState.title || '';
+                inputs.summary.value = dynamicState.summary || '';
+                inputs.skills.value = dynamicState.skills || '';
+                
+                if (dynamicState.experiences && dynamicState.experiences.length > 0) {
+                    experiences = dynamicState.experiences;
+                }
+
+                // Force trigger synthetic cycles on static models to update preview pane
+                Object.values(inputs).forEach(element => triggerSync(element));
+            }
+            renderExperiences();
+        }
+
+        // Bind native inputs to state monitors
+        Object.values(inputs).forEach(inputElement => {
+            if (inputElement) {
+                inputElement.addEventListener('input', saveToLocalStorage);
+            }
+        });
+
+        // Smart sync that respects placeholder text visual states
+        function initLiveSync() {
+            inputs.name.addEventListener('input', (e) => {
+                previews.name.innerText = e.target.value || inputs.name.placeholder || "Your Name";
+            });
+            
+            inputs.title.addEventListener('input', (e) => {
+                previews.title.innerText = e.target.value || inputs.title.placeholder || "Professional Title";
+            });
+            
+            inputs.summary.addEventListener('input', (e) => {
+                previews.summary.innerText = e.target.value || inputs.summary.placeholder || "Your structured career objective...";
+            });
+
+            inputs.skills.addEventListener('input', (e) => {
+                const values = e.target.value.split(',').map(s => s.trim()).filter(s => s.length > 0);
+                previews.skillsContainer.innerHTML = '';
+                
+                if(values.length === 0) {
+                    previews.skillsContainer.innerHTML = `<span class="bg-gray-100 text-gray-800 text-[10px] font-medium px-2 py-0.5 rounded">Skill Placeholder</span>`;
+                    return;
+                }
+                values.forEach(skill => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-blue-50 text-[#2563EB] text-[10px] font-semibold px-2 py-0.5 rounded border border-blue-100 transition-colors duration-300';
+                    tag.innerText = skill;
+                    previews.skillsContainer.appendChild(tag);
+                });
+            });
+        }
+
+        // ==========================================
+        // 3. REPEATABLE EXPERIENCE ARCHITECTURE ENGINE
+        // ==========================================
+        function renderExperiences() {
+            const inputsContainer = document.getElementById('experience-inputs-container');
+            const previewContainer = document.getElementById('preview-experience-container');
+            
+            if (!inputsContainer || !previewContainer) return;
+            
+            inputsContainer.innerHTML = '';
+            previewContainer.innerHTML = '';
+
+            experiences.forEach((exp, index) => {
+                const blockElement = document.createElement('div');
+                blockElement.className = 'space-y-3 p-4 bg-gray-50 border border-gray-200 rounded-xl relative group transition-all duration-500';
+                blockElement.innerHTML = `
+                    ${index > 0 ? `
+                    <button type="button" class="delete-exp-btn absolute top-3 right-3 text-gray-400 hover:text-red-500 transition text-xs font-medium" data-target-index="${index}">
+                        Remove
+                    </button>
+                    ` : ''}
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" placeholder="Project Name or Role" class="input-exp-role w-full border border-gray-300 bg-white rounded-lg p-2 text-sm outline-none" value="${exp.role || ''}">
+                        <input type="text" placeholder="Company or Repository" class="input-exp-company w-full border border-gray-300 bg-white rounded-lg p-2 text-sm outline-none" value="${exp.company || ''}">
+                    </div>
+                    <textarea rows="3" placeholder="Describe scope, actions, and stack used..." class="input-exp-desc w-full border border-gray-300 bg-white rounded-lg p-2 text-sm outline-none resize-none transition-all duration-500">${exp.desc || ''}</textarea>
+                `;
+
+                blockElement.querySelector('.input-exp-role').addEventListener('input', (e) => {
+                    experiences[index].role = e.target.value;
+                    reactivePreviewSync();
+                });
+                blockElement.querySelector('.input-exp-company').addEventListener('input', (e) => {
+                    experiences[index].company = e.target.value;
+                    reactivePreviewSync();
+                });
+                blockElement.querySelector('.input-exp-desc').addEventListener('input', (e) => {
+                    experiences[index].desc = e.target.value;
+                    reactivePreviewSync();
+                });
+
+                if (index > 0) {
+                    blockElement.querySelector('.delete-exp-btn').addEventListener('click', () => {
+                        experiences.splice(index, 1);
+                        renderExperiences();
+                        saveToLocalStorage();
+                    });
+                }
+
+                inputsContainer.appendChild(blockElement);
+
+                // Build Canvas Render Preview
+                const outputPreviewElement = document.createElement('div');
+                outputPreviewElement.className = 'transition-all duration-500';
+                outputPreviewElement.innerHTML = `
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-gray-900">${exp.role || 'Role / Context'}</span>
+                        <span class="text-[11px] font-medium text-gray-500">${exp.company || 'Entity Node'}</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-1 leading-relaxed whitespace-pre-line">${exp.desc || 'Scope description details mapping metrics automatically.'}</p>
+                `;
+                previewContainer.appendChild(outputPreviewElement);
+            });
+        }
+
+        function reactivePreviewSync() {
+            const previewContainer = document.getElementById('preview-experience-container');
+            if (!previewContainer) return;
+            previewContainer.innerHTML = '';
+            
+            experiences.forEach(exp => {
+                const outputPreviewElement = document.createElement('div');
+                outputPreviewElement.className = 'transition-all duration-500';
+                outputPreviewElement.innerHTML = `
+                    <div class="flex justify-between items-baseline">
+                        <span class="text-xs font-bold text-gray-900">${exp.role || 'Role / Context'}</span>
+                        <span class="text-[11px] font-medium text-gray-500">${exp.company || 'Entity Node'}</span>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-1 leading-relaxed whitespace-pre-line">${exp.desc || 'Scope description details mapping metrics automatically.'}</p>
+                `;
+                previewContainer.appendChild(outputPreviewElement);
+            });
+            saveToLocalStorage();
+        }
+
+        document.getElementById('add-exp-btn').addEventListener('click', () => {
+            experiences.push({ role: '', company: '', desc: '' });
+            renderExperiences();
+            saveToLocalStorage();
+        });
+
+        // GitHub Sync Routine Data Mocking
+        document.getElementById('github-sync-btn').addEventListener('click', () => {
+            inputs.name.value = "Alex Mercer";
+            inputs.title.value = "Software Developer";
+            inputs.summary.value = "Self-taught developer building projects. I know some frontend and backend stuff. Made a to-do app.";
+            inputs.skills.value = "JavaScript, Python, HTML, CSS";
+            
+            experiences = [{
+                role: "Creator",
+                company: "github.com/alex-mercer/todo-app",
+                desc: "Built a standard task manager so I could learn how APIs work. Used Node.js and basic databases."
+            }];
+            
+            Object.values(inputs).forEach(input => triggerSync(input));
+            renderExperiences();
+            saveToLocalStorage();
+        });
+
+        // ==========================================
+        // 4. PRODUCTION AI OPTIMIZATION VECTOR ENGINE
+        // ==========================================
+        document.getElementById('ai-tailor-btn').addEventListener('click', async function() {
+            const btnText = document.getElementById('ai-btn-text');
+            const originalText = btnText.innerText;
+            
+            btnText.innerText = "Analyzing Job Profile...";
+            this.classList.add('animate-pulse');
+
+            const rawPayload = {
+                job_description: window.currentTargetJobDescription,
+                raw_cv: {
+                    title: inputs.title.value || inputs.title.placeholder,
+                    summary: inputs.summary.value || inputs.summary.placeholder,
+                    skills: inputs.skills.value || inputs.skills.placeholder,
+                    expDesc: experiences[0] ? experiences[0].desc : ""
+                }
+            };
+
+            try {
+                const response = await fetch('http://localhost:8000/api/v1/cv/tailor/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(rawPayload)
+                });
+
+                if (!response.ok) throw new Error("AI tailoring failed");
+
+                const aiOptimizedData = await response.json();
+
+                inputs.title.value = aiOptimizedData.title;
+                inputs.summary.value = aiOptimizedData.summary;
+                inputs.skills.value = aiOptimizedData.skills;
+                
+                if (experiences.length > 0) {
+                    experiences[0].desc = aiOptimizedData.expDesc;
+                } else {
+                    experiences.push({ role: 'Engineer', company: 'Optimized Matrix', desc: aiOptimizedData.expDesc });
+                }
+                
+                triggerSync(inputs.title);
+                triggerSync(inputs.summary);
+                triggerSync(inputs.skills);
+                renderExperiences();
+                saveToLocalStorage();
+
+                // UI Polish Highlights
+                inputs.summary.classList.add('ai-highlight');
+                inputs.skills.classList.add('ai-highlight');
+                inputs.title.classList.add('ai-highlight');
+                
+                const targetedDynamicElement = document.querySelector('.input-exp-desc');
+                if(targetedDynamicElement) targetedDynamicElement.classList.add('ai-highlight');
+                
+                document.getElementById('badge-summary').classList.remove('hidden');
+                document.getElementById('badge-skills').classList.remove('hidden');
+                document.getElementById('badge-exp').classList.remove('hidden');
+
+                this.classList.remove('animate-pulse');
+                btnText.innerText = "Tailored Successfully ✓";
+                this.classList.replace('from-purple-600', 'from-green-500');
+                this.classList.replace('to-indigo-600', 'to-emerald-600');
+
+                setTimeout(() => {
+                    inputs.summary.classList.remove('ai-highlight');
+                    inputs.skills.classList.remove('ai-highlight');
+                    inputs.title.classList.remove('ai-highlight');
+                    if(targetedDynamicElement) targetedDynamicElement.classList.remove('ai-highlight');
+                }, 4000);
+
+            } catch (error) {
+                console.error(error);
+                btnText.innerText = "Tailoring Failed";
+                this.classList.remove('animate-pulse');
+                setTimeout(() => btnText.innerText = originalText, 2000);
+            }
+        });
+
+        // Ignition Sequence
+        initLiveSync();
+        loadFromLocalStorage();
+    });
+    </script>
+</body>
+</html>

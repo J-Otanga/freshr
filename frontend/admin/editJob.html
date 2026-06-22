@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Job - Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-gray-900 antialiased flex h-screen overflow-hidden">
+
+    <aside class="w-64 bg-[#2563EB] text-white flex flex-col justify-between hidden md:flex">
+        <div>
+            <div class="h-16 flex items-center justify-between px-6 border-b border-blue-500/30">
+                <span class="text-xl font-bold tracking-wide">Freshr</span>
+                <svg class="w-6 h-6 cursor-pointer opacity-70 hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </div>
+            
+            <nav class="mt-6 px-4 space-y-2">
+                <a href="dashboard.html" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/5 transition opacity-80 hover:opacity-100">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Home
+                </a>
+                <a href="manageJobs.html" class="flex items-center px-4 py-3 bg-white/10 rounded-lg text-sm font-medium transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    Manage Jobs
+                </a>
+                <a href="reports.html" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/5 transition opacity-80 hover:opacity-100">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Reports
+                </a>
+            </nav>
+        </div>
+
+        <div class="mb-6 px-4 space-y-2">
+            <a href="settings.html" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/5 transition opacity-80 hover:opacity-100">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                Settings
+            </a>
+            <a href="#" onclick="localStorage.removeItem('adminToken'); window.location.href='login.html';" class="flex items-center px-4 py-3 rounded-lg text-sm font-medium hover:bg-white/5 transition opacity-80 hover:opacity-100">
+                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                Log Out
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden">
+        
+        <header class="h-16 flex items-center justify-between px-8 border-b border-gray-200 bg-white">
+            <div class="flex items-center space-x-2 text-gray-500 font-medium">
+                <a href="manageJobs.html" class="hover:text-blue-600 transition">Manage Jobs</a>
+                <span>/</span>
+                <span class="text-gray-900">Update Job</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-gray-200"></div>
+                    <span class="text-sm font-semibold">Admin</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8">
+            <div class="max-w-3xl mx-auto">
+                
+                <div class="mb-8">
+                    <a href="manageJobs.html" class="inline-flex items-center text-sm font-medium text-gray-500 hover:text-[#1D4ED8] transition mb-4">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        Back to Manage Jobs
+                    </a>
+                    
+                    <h1 class="text-2xl font-bold text-gray-900">Update Vacancy</h1>
+                    <p class="text-sm text-gray-500 mt-1">Modify the details below to update this role on the platform.</p>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-8">
+                    <form id="updateJobForm" class="space-y-6">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
+                                <input type="text" id="title" required placeholder="e.g. Software Engineering Intern" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
+                                <input type="text" id="company" required placeholder="e.g. Google" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+                                <input type="text" id="location" required placeholder="Type a city, or 'Remote'" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Experience Level *</label>
+                                <select id="experience_level" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm bg-white">
+                                    <option value="" disabled selected>Select level</option>
+                                    <option value="internship">Internship</option>
+                                    <option value="entry_level">Entry Level</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Employment Type *</label>
+                                <select id="employment_type" required class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm bg-white">
+                                    <option value="full_time">Full-Time</option>
+                                    <option value="part_time">Part-Time</option>
+                                    <option value="contract">Contract</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Salary Range <span class="text-gray-400 font-normal">(Optional)</span></label>
+                                <input type="text" id="salary" placeholder="e.g. Ksh 40,000 - 60,000" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                                <p class="text-xs text-gray-400 mt-1">If left blank, will display as "Not Available".</p>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Application Link / URL *</label>
+                            <input type="url" id="application_link" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
+                            <textarea id="description" required rows="6" placeholder="Describe the responsibilities, requirements, and benefits..." class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition text-sm resize-none"></textarea>
+                        </div>
+
+                        <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
+                            <a href="manageJobs.html" class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition">Cancel</a>
+                            <button type="submit" class="px-6 py-2.5 bg-[#1D4ED8] rounded-lg text-sm font-medium text-white hover:bg-blue-800 transition shadow-sm">
+                                Update Job
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Check if user is logged in, extract ID, and fetch existing job data
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                alert("You must be logged in to access this page.");
+                window.location.href = 'login.html'; 
+                return;
+            }
+
+            // Get the job ID from the URL (e.g. updateJob.html?id=3)
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = urlParams.get('id');
+
+            if (!jobId) {
+                alert("No job ID provided.");
+                window.location.href = 'manageJobs.html';
+                return;
+            }
+
+            try {
+                // Fetch the specific job data
+                const response = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const job = await response.json();
+                    
+                    // Pre-fill the form with the fetched data
+                    document.getElementById('title').value = job.title;
+                    document.getElementById('company').value = job.company;
+                    document.getElementById('location').value = job.location;
+                    document.getElementById('experience_level').value = job.experience_level;
+                    document.getElementById('employment_type').value = job.employment_type;
+                    document.getElementById('salary').value = job.salary || '';
+                    document.getElementById('application_link').value = job.application_link;
+                    document.getElementById('description').value = job.description;
+                } else {
+                    alert('Failed to load job details. It might have been deleted.');
+                    window.location.href = 'manageJobs.html';
+                }
+            } catch (error) {
+                alert('Connection error. Is your FastAPI server running?');
+                console.error(error);
+            }
+        });
+
+        // Handle the Update form submission
+        document.getElementById('updateJobForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const token = localStorage.getItem('adminToken');
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobId = urlParams.get('id');
+
+            // Build the JSON payload 
+            const payload = {
+                title: document.getElementById('title').value,
+                company: document.getElementById('company').value,
+                location: document.getElementById('location').value,
+                experience_level: document.getElementById('experience_level').value,
+                employment_type: document.getElementById('employment_type').value,
+                salary: document.getElementById('salary').value,
+                application_link: document.getElementById('application_link').value,
+                description: document.getElementById('description').value
+            };
+
+            try {
+                // Send the PUT request to FastAPI
+                const response = await fetch(`http://localhost:8000/api/v1/jobs/${jobId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}` 
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Job updated successfully!');
+                    window.location.href = 'manageJobs.html';
+                } else {
+                    const errorMessage = typeof result.detail === 'string' 
+                        ? result.detail 
+                        : JSON.stringify(result.detail);
+                    alert('Failed to update job: ' + errorMessage);
+                }
+            } catch (error) {
+                alert('Connection error. Is your FastAPI server running?');
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
