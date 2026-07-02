@@ -5,6 +5,11 @@ from pydantic import BaseModel
 from passlib.context import CryptContext
 import jwt
 from datetime import datetime, timedelta, timezone
+from app.schemas import GitHubSyncRequest
+from app.services.github import get_student_languages
+
+# ✅ ADDED: Import the repository fetching service so profile can load live repos
+from app.services.githubService import fetch_github_repositories
 
 from app import models
 from app.database import SessionLocal
@@ -37,8 +42,9 @@ class UserCreate(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    full_name: str | None = None
 
-# --- 3. THE BOUNCER (The missing function causing the crash!) ---
+# --- 3. THE BOUNCER ---
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     """
     Decodes the JWT token, validates it, and yields the logged-in user object.
@@ -91,7 +97,7 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     token_data = {"sub": new_user.email, "exp": expire}
     encoded_jwt = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
 
-    return {"access_token": encoded_jwt, "token_type": "bearer"}
+    return {"access_token": encoded_jwt, "token_type": "bearer", "full_name": new_user.full_name}
 
 
 @router.post("/login", response_model=Token)
@@ -109,4 +115,64 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     token_data = {"sub": user.email, "exp": expire}
     encoded_jwt = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
 
-    return {"access_token": encoded_jwt, "token_type": "bearer"}
+    return {
+        "access_token": encoded_jwt, 
+        "token_type": "bearer",
+        "full_name": user.full_name
+    }
+
+@router.post("/sync-github")
+async def sync_github(
+    request: GitHubSyncRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user)
+):
+    """
+    Takes the GitHub URL from the frontend, extracts the username,
+    fetches their top languages, and saves both to the database.
+    """
+    username = request.github_url.strip('/').split('/')[-1]
+    
+    if not username:
+        raise HTTPException(status_code=400, detail="Invalid GitHub URL provided")
+
+    try:
+        languages = await get_student_languages(username)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to fetch GitHub data: {str(e)}")
+
+    current_user.github_url = request.github_url
+    current_user.top_languages = languages
+    
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "status": "success",
+        "username": username,
+        "core_skills": current_user.top_languages
+    }
+    
+@router.get("/profile")
+async def get_profile(current_user: models.User = Depends(get_current_user)):
+    """
+    Securely returns the logged-in user's database profile and dynamically 
+    fetches live repository details if they have a GitHub URL synced.
+    """
+    # ✅ UPDATED: Fetch repositories dynamically on the fly if a URL exists
+    live_repos = []
+    if current_user.github_url:
+        try:
+            live_repos = await fetch_github_repositories(current_user.github_url)
+        except Exception as e:
+            # Fallback gracefully to an empty list if the live GitHub fetch hits a rate limit or network issue
+            print(f"Graceful fallback: Failed to dynamically stream profile repos: {e}")
+            live_repos = []
+
+    return {
+        "full_name": current_user.full_name,
+        "email": current_user.email,
+        "github_url": current_user.github_url,
+        "core_skills": current_user.top_languages,
+        "repos": live_repos  # ✅ Return real live repos with URLs to the frontend!
+    }

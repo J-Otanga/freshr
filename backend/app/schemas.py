@@ -17,6 +17,8 @@ class UserLogin(BaseModel):
 class Token(BaseModel):
     access_token: str
     token_type: str
+    full_name: Optional[str] = None
+    
     
 class JobBase(BaseModel):
     title: str
@@ -48,3 +50,34 @@ class AdminCreate(BaseModel):
 class AdminLogin(BaseModel):
     email: str
     password: str        
+    
+# --- CV STUDIO & GITHUB SYNC SCHEMAS ---
+
+# 1. GitHub Sync Contracts
+class GitHubSyncRequest(BaseModel):
+    github_url: str
+
+class JobMatchItem(BaseModel):
+    title: str
+    company: str
+    location: str
+    match_percentage: int
+
+class GitHubSyncResponse(BaseModel):
+    status: str
+    username: str
+    core_skills: List[str]
+    job_matches: List[JobMatchItem]
+
+# 2. AI Tailoring Contracts
+class CVTailorRequest(BaseModel):
+    target_job: str           # e.g., "Data analyst at Flowt"
+    current_title: str        # e.g., "Backend Systems Engineer"
+    current_summary: str      # The raw text from the summary box
+    current_skills: str       # The raw text from the skills box
+    # Optional: We can add experiences later if you want the AI to rewrite those too
+
+class CVTailorResponse(BaseModel):
+    tailored_title: str
+    tailored_summary: str
+    tailored_skills: str

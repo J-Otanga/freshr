@@ -22,7 +22,9 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
-      - GEMINI_API_KEY={GEMINI_API_KEY} # Pass the Gemini API key to the backend
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY} # Pass the Gemini API key to the backend
+      - super-secret-master-code=${super-secret-master-code} # Pass the master code to the backend
     depends_on:
       - db
     volumes:

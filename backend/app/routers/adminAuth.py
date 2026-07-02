@@ -18,7 +18,7 @@ SECRET_KEY = "your-super-secret-development-key"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
-MASTER_ACCESS_CODE = os.getenv("super-secret-master-code")
+super_secret_master_code = "FRESHR-ADMIN-2026"
 
 # --- THE ADMIN BOUNCER ---
 def get_current_admin(token: str = Depends(admin_oauth2_scheme), db: Session = Depends(get_db)):
@@ -49,7 +49,7 @@ def get_current_admin(token: str = Depends(admin_oauth2_scheme), db: Session = D
 @router.post("/register")
 def register_admin(admin: schemas.AdminCreate, db: Session = Depends(get_db)):
     # 1. Check Master Key
-    if admin.access_code != MASTER_ACCESS_CODE:
+    if admin.access_code != super_secret_master_code:
         raise HTTPException(status_code=403, detail="Invalid Platform Access Code")
 
     # 2. Check if admin exists
